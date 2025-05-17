@@ -48,6 +48,18 @@ yarn dev
 - `NEXT_PUBLIC_MKS_CONTRACT_ADDRESS`
 - `NEXT_PUBLIC_ETHERSCAN_API_KEY`
 
+## Deploy
+
+### Netlify
+
+1. Faça login no [Netlify](https://app.netlify.com)
+2. Clique em "New site from Git"
+3. Selecione o repositório do GitHub
+4. Configure as variáveis de ambiente no painel do Netlify
+5. Clique em "Deploy site"
+
+O site será automaticamente atualizado quando houver novos commits na branch main.
+
 ## Licença
 
 MIT 
