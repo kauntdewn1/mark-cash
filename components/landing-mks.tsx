@@ -9,8 +9,11 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { Web3Auth } from "@web3auth/modal";
 import { CHAIN_NAMESPACES } from "@web3auth/base";
 import { auth } from "@/firebase/firebase-config";
-import HeroSection from "./HeroSection";
-import PriceDisplay from "./PriceDisplay";
+import dynamic from 'next/dynamic';
+
+// Importação dinâmica dos componentes
+const HeroSection = dynamic(() => import('./HeroSection'), { ssr: false });
+const PriceDisplay = dynamic(() => import('./PriceDisplay'), { ssr: false });
 
 // Funções de staking (mock - implementar com sua lógica real)
 const checkStakeStatus = async (wallet: string) => {

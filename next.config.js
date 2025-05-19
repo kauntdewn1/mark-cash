@@ -16,9 +16,10 @@ const nextConfig = {
     config.cache = false; // Disable webpack caching
     return config;
   },
-  assetPrefix: 'https://markcash.eth.limo',
-  basePath: '',
+  // Configuração para exportação estática
   trailingSlash: true,
+  // Removido assetPrefix temporariamente para debug
+  // assetPrefix: 'https://markcash.eth.limo',
 };
 
 module.exports = nextConfig;
