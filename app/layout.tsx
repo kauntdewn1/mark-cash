@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'MKS - MarkCash',
     description: 'O $MKS é o token nativo da nova economia do marketing digital.',
-    url: 'https://mks.markcash.eth.limo',
+    url: 'https://markcash.xyz',
     siteName: 'MarkCash',
     images: [
       {
