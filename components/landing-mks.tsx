@@ -204,46 +204,32 @@ export default function LandingMKS() {
 
               {/* Coluna da Direita - Participação */}
               <div className="space-y-8">
-                <motion.h2
+                <motion.h3
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   className="text-3xl font-bold text-center lg:text-left"
                 >
-                  Participe do Ecossistema
-                </motion.h2>
+                  Em breve você poderá participar do Ecossistema
+                </motion.h3>
 
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 }}
-                  className="text-lg text-muted-foreground text-center lg:text-left"
-                >
-                  Faça parte da revolução do marketing descentralizado. Stake seus tokens e ganhe recompensas.
-                </motion.p>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.4 }}
-                  className="flex justify-center lg:justify-start"
-                >
-                  {isStaked ? (
-                    <div className="bg-green-500/10 text-green-500 px-6 py-3 rounded-lg">
-                      Tokens em stake! Recompensas ativas.
-                    </div>
-                  ) : (
-                    <Button
-                      size="lg"
-                      onClick={handleStakeClick}
-                      className="bg-gradient-to-r from-[#FF00FF] via-[#FF1493] to-[#FF69B4] text-white hover:opacity-90"
-                    >
-                      Fazer Stake
-                    </Button>
-                  )}
-                </motion.div>
+                <div className="bg-gray-800/50 border border-dashed border-gray-400 rounded-lg p-6 flex flex-col items-center gap-4 opacity-60 cursor-not-allowed select-none">
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.2 }}
+                    className="text-lg text-gray-400 text-center lg:text-left"
+                  >
+                    Faça parte da revolução do marketing descentralizado. Stake seus tokens e ganhe recompensas.
+                  </motion.p>
+                  <button
+                    className="mt-2 px-6 py-2 rounded bg-gray-700 text-gray-400 font-semibold opacity-70 cursor-not-allowed"
+                    disabled
+                  >
+                    Stake (em breve)
+                  </button>
+                </div>
               </div>
             </div>
           </div>

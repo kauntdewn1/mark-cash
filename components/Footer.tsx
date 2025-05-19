@@ -28,19 +28,13 @@ export function Footer() {
             <h3 className="text-sm font-medium">Links Rápidos</h3>
             <ul className="space-y-2 text-center lg:text-left">
               <li>
-                <Link href="/sobre" className="text-sm text-muted-foreground hover:text-primary">
-                  Sobre
-                </Link>
+                <span className="text-sm text-gray-400 cursor-not-allowed select-none">Sobre</span>
               </li>
               <li>
-                <Link href="/tokenomics" className="text-sm text-muted-foreground hover:text-primary">
-                  Tokenomics
-                </Link>
+                <span className="text-sm text-gray-400 cursor-not-allowed select-none">Tokenomics</span>
               </li>
               <li>
-                <Link href="/roadmap" className="text-sm text-muted-foreground hover:text-primary">
-                  Roadmap
-                </Link>
+                <span className="text-sm text-gray-400 cursor-not-allowed select-none">Roadmap</span>
               </li>
             </ul>
           </div>
@@ -54,7 +48,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="text-sm text-muted-foreground hover:text-primary flex items-center gap-2"
                 >
-                  <span>🟦</span> Etherscan
+                  Etherscan
                 </a>
               </li>
               <li>
@@ -64,7 +58,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="text-sm text-muted-foreground hover:text-primary flex items-center gap-2"
                 >
-                  <span>💸</span> FlowPay
+                  FlowPay
                 </a>
               </li>
               <li>
@@ -74,7 +68,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="text-sm text-muted-foreground hover:text-primary flex items-center gap-2"
                 >
-                  <span>🟩</span> WhatsApp
+                  WhatsApp
                 </a>
               </li>
               <li>
@@ -84,7 +78,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="text-sm text-muted-foreground hover:text-primary flex items-center gap-2"
                 >
-                  <span>▶️</span> Web3 Brasil
+                  Web3 Brasil
                 </a>
               </li>
             </ul>

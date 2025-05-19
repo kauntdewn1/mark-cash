@@ -24,15 +24,9 @@ export function Header() {
             />
           </Link>
           <nav className="hidden md:flex gap-6">
-            <Link href="/sobre" className="text-sm font-medium transition-colors hover:text-primary">
-              Sobre
-            </Link>
-            <Link href="/tokenomics" className="text-sm font-medium transition-colors hover:text-primary">
-              Tokenomics
-            </Link>
-            <Link href="/roadmap" className="text-sm font-medium transition-colors hover:text-primary">
-              Roadmap
-            </Link>
+            <span className="text-sm font-medium text-gray-400 cursor-not-allowed select-none">Sobre</span>
+            <span className="text-sm font-medium text-gray-400 cursor-not-allowed select-none">Tokenomics</span>
+            <span className="text-sm font-medium text-gray-400 cursor-not-allowed select-none">Roadmap</span>
           </nav>
         </div>
         <div className="flex items-center gap-4">

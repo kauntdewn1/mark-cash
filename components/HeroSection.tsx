@@ -22,8 +22,6 @@ export default function HeroSection() {
           priority
           unoptimized
         />
-        {/* Pixel grid overlay */}
-        <div className="absolute inset-0 w-full h-full pixel-bg z-0 pointer-events-none" />
         {/* Overlay gradiente */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/5 to-black/20" />
       </div>

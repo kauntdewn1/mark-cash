@@ -73,21 +73,6 @@ export function WalletAuth() {
     }
   };
 
-  if (loading) {
-    return <div>Carregando...</div>;
-  }
-
-  return (
-    <div className="flex items-center gap-4">
-      {isAuthenticated ? (
-        <Button onClick={handleLogout} variant="outline">
-          Desconectar Carteira
-        </Button>
-      ) : (
-        <Button onClick={handleLogin} variant="default">
-          Conectar Carteira
-        </Button>
-      )}
-    </div>
-  );
+  // Autenticação desabilitada temporariamente
+  return null;
 } 
