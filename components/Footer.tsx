@@ -48,46 +48,67 @@ export function Footer() {
             <h3 className="text-sm font-medium">Social</h3>
             <ul className="space-y-2 text-center lg:text-left">
               <li>
-                <a 
-                  href="https://twitter.com/mks_token" 
-                  target="_blank" 
+                <a
+                  href="https://etherscan.io/token/0x58edcf4b0ae4591b873664734fd6731ae1aae962"
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-primary"
+                  className="text-sm text-muted-foreground hover:text-primary flex items-center gap-2"
                 >
-                  Twitter
+                  <span>🟦</span> Etherscan
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://t.me/mks_token" 
-                  target="_blank" 
+                <a
+                  href="https://flowpaycomingsoon.netlify.app/"
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-primary"
+                  className="text-sm text-muted-foreground hover:text-primary flex items-center gap-2"
                 >
-                  Telegram
+                  <span>💸</span> FlowPay
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://chat.whatsapp.com/GCnIKziZAT2Etf0gshqA9S"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-primary flex items-center gap-2"
+                >
+                  <span>🟩</span> WhatsApp
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://web3brasil.xyz/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-primary flex items-center gap-2"
+                >
+                  <span>▶️</span> Web3 Brasil
                 </a>
               </li>
             </ul>
           </div>
           <div className="flex flex-col items-center lg:items-start space-y-4">
             <div className="space-y-4">
-              <h3 className="text-sm font-medium">Contrato</h3>
+              <h3 className="text-sm font-medium">Contrato Mainnet</h3>
               <p className="text-sm text-muted-foreground text-center lg:text-left">
                 <a 
-                  href="https://etherscan.io/nft/0xD4416b13d2b3a9aBae7AcD5D6C2BbDBE25686401/40958779725811611588550816432875367046036481490366221174848031339785716351663" 
+                  href="https://etherscan.io/token/0x58edcf4b0ae4591b873664734fd6731ae1aae962" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="hover:text-primary break-all"
                 >
-                  0xD4416b13d2b3a9aBae7AcD5D6C2BbDBE25686401
+                  etherscan.io/token
                 </a>
               </p>
             </div>
             <div className="space-y-4">
               <h3 className="text-sm font-medium">Contato</h3>
               <a 
-                href="mailto:markcash.eth@ethermail.io" 
-                className="text-accent font-semibold hover:underline text-center lg:text-left block"
+                href="mailto:markcash.eth@ethermail.io"
+                className="text-white font-semibold hover:underline text-center lg:text-left block"
+                style={{ textShadow: '0 0 8px #fff, 0 0 16px #fff8, 0 0 2px #fff8' }}
                 target="_blank"
                 rel="noopener noreferrer"
               >

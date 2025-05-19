@@ -248,16 +248,7 @@ export default function LandingMKS() {
             </div>
           </div>
         </section>
-
-        <motion.footer 
-          className="text-center text-sm text-gray-500 mt-12"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 0.8 }}
-        >
-          <p className="font-mono">markcash.eth • brutalismo digital com utilidade real • 2024</p>
-        </motion.footer>
-      </div>
+        </div>
     </main>
   );
 }

@@ -36,13 +36,6 @@ export function Header() {
           </nav>
         </div>
         <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          >
-            {theme === 'dark' ? '🌞' : '🌙'}
-          </Button>
           <WalletAuth />
         </div>
       </div>

@@ -3,6 +3,12 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
+const CONTRACT_ADDRESS = "0x58edcf4b0ae4591b873664734fd6731ae1aae962";
+const TOKEN_DECIMALS = 18;
+const abi = [
+  "function totalSupply() view returns (uint256)"
+];
+
 export default function HeroSection() {
   return (
     <section className="relative min-h-[50vh] flex items-start justify-center overflow-hidden pt-10">
@@ -16,6 +22,8 @@ export default function HeroSection() {
           priority
           unoptimized
         />
+        {/* Pixel grid overlay */}
+        <div className="absolute inset-0 w-full h-full pixel-bg z-0 pointer-events-none" />
         {/* Overlay gradiente */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/5 to-black/20" />
       </div>
@@ -58,9 +66,8 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-12"
+            className="text-xl md:text-2xl text-green-500 max-w-2xl mx-auto mb-12"
           >
-            Token utilitário multi-chain para marketing digital descentralizado
           </motion.p>
 
           {/* Número animado */}
@@ -87,7 +94,7 @@ export default function HeroSection() {
                 ease: "easeInOut"
               }}
             >
-              1,000,000
+              1,000,000,000
             </motion.h1>
             <motion.p
               className="text-gray-400 text-sm md:text-base"
@@ -97,6 +104,13 @@ export default function HeroSection() {
             >
               Tokens em circulação
             </motion.p>
+            <div className="mt-4 text-xs md:text-sm text-gray-500 space-y-1">
+              <div><b>Nome:</b> MARKCASH</div>
+              <div><b>Símbolo:</b> MKS</div>
+              <div><b>Decimais:</b> 18</div>
+              <div><b>Total supply:</b> 1.000.000.000</div>
+              <div><b>Contrato:</b> <a href="https://sepolia.etherscan.io/address/0x58edcf4b0ae4591b873664734fd6731ae1aae962" target="_blank" rel="noopener noreferrer" className="underline hover:text-pink-400">0x58edcf4b0ae4591b873664734fd6731ae1aae962</a></div>
+            </div>
           </motion.div>
 
           {/* Logos dos parceiros */}
@@ -112,9 +126,9 @@ export default function HeroSection() {
                 <Image
                   src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747288216/solana_cub0gz.png"
                   alt="Solana"
-                  width={80}
-                  height={80}
-                  className="w-20 h-20 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                  width={112}
+                  height={112}
+                  className="w-28 h-28 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
                 />
               </div>
             </div>
@@ -125,9 +139,9 @@ export default function HeroSection() {
                 <Image
                   src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747287753/metamask_mo2yj1.png"
                   alt="MetaMask"
-                  width={80}
-                  height={80}
-                  className="w-20 h-20 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                  width={112}
+                  height={112}
+                  className="w-28 h-28 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
                 />
               </div>
             </div>
@@ -138,9 +152,9 @@ export default function HeroSection() {
                 <Image
                   src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747287743/blockchain_kcfrm5.png"
                   alt="Blockchain"
-                  width={80}
-                  height={80}
-                  className="w-20 h-20 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                  width={112}
+                  height={112}
+                  className="w-28 h-28 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
                 />
               </div>
             </div>
@@ -151,9 +165,9 @@ export default function HeroSection() {
                 <Image
                   src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747287744/arwave_remvko.png"
                   alt="Arwave"
-                  width={80}
-                  height={80}
-                  className="w-20 h-20 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                  width={112}
+                  height={112}
+                  className="w-28 h-28 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
                 />
               </div>
             </div>
@@ -164,9 +178,9 @@ export default function HeroSection() {
                 <Image
                   src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747278790/logo_flowoff_lrcv04.png"
                   alt="Flowoff"
-                  width={80}
-                  height={80}
-                  className="w-20 h-20 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                  width={112}
+                  height={112}
+                  className="w-28 h-28 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
                 />
               </div>
             </div>
@@ -177,9 +191,9 @@ export default function HeroSection() {
                 <Image
                   src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747287743/ethereum_d374wq.png"
                   alt="Ethereum"
-                  width={80}
-                  height={80}
-                  className="w-20 h-20 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                  width={112}
+                  height={112}
+                  className="w-28 h-28 object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
                 />
               </div>
             </div>

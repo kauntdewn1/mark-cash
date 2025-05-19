@@ -202,6 +202,16 @@
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
   }
+
+  .animate-marquee {
+    animation: marquee 40s linear infinite;
+  }
+
+  .pixel-bg {
+    background-image: linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+                      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
 }
 
 @keyframes scanline {
@@ -277,4 +287,9 @@
   100% {
     opacity: 0.98;
   }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
 }

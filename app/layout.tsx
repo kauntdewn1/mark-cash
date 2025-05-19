@@ -4,6 +4,8 @@ import { Inter, Space_Mono } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { type Viewport } from 'next';
+import { MarqueeBar } from '@/components/MarqueeBar';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -17,6 +19,7 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://markcash.xyz'),
   title: 'MKS - MarkCash',
   description: 'O $MKS é o token nativo da nova economia do marketing digital.',
   icons: {
@@ -53,13 +56,15 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
-  themeColor: '#000000',
 };
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
+
+export const themeColor = '#000000';
 
 export default function RootLayout({
   children,
@@ -79,11 +84,11 @@ export default function RootLayout({
           defaultTheme="dark" 
           enableSystem={false}
         >
-          
           <Header />
           <main className="min-h-screen pt-16">
             {children}
           </main>
+          <MarqueeBar />
           <Footer />
           <div className="scanline" />
           <div className="crt-effect" />
