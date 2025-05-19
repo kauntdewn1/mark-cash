@@ -2,7 +2,6 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, Space_Mono } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
-import { GlitchLogo } from '@/components/ui/GlitchLogo';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
@@ -19,7 +18,7 @@ const spaceMono = Space_Mono({
 
 export const metadata: Metadata = {
   title: 'MKS - MarkCash',
-  description: 'Token utilitário multi-chain para marketing digital descentralizado',
+  description: 'O $MKS é o token nativo da nova economia do marketing digital.',
 };
 
 export default function RootLayout({

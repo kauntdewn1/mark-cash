@@ -117,7 +117,7 @@ export default function LandingMKS() {
             <Card className="bg-zinc-900 border border-zinc-700 h-full">
               <CardContent className="p-6 space-y-4">
                 <div className="mb-4">
-                  <ChevronsUp className="h-8 w-8 text-lime-400" />
+                  <ChevronsUp className="h-10 w-10 text-[#c72262]" />
                 </div>
                 <h2 className="text-xl font-semibold">Por que $MKS?</h2>
                 <p className="text-gray-400">
@@ -133,13 +133,13 @@ export default function LandingMKS() {
             <Card className="bg-zinc-900 border border-zinc-700 h-full">
               <CardContent className="p-6 space-y-4">
                 <div className="mb-4">
-                  <Webhook className="h-8 w-8 text-lime-400" />
+                  <Webhook className="h-8 w-8 text-[#c72262]" />
                 </div>
                 <h2 className="text-xl font-semibold">Infraestrutura Real</h2>
                 <ul className="text-gray-400 space-y-2">
-                  <li className="flex items-center gap-2"><BadgeCheck size={16} className="text-lime-400"/> Firebase + IPFS + Web3Auth</li>
-                  <li className="flex items-center gap-2"><BadgeCheck size={16} className="text-lime-400"/> MiniApps com IA e Dashboards</li>
-                  <li className="flex items-center gap-2"><BadgeCheck size={16} className="text-lime-400"/> Token gating, staking, badges</li>
+                  <li className="flex items-center gap-2"><BadgeCheck size={16} className="text-[#c72262]"/> Firebase + IPFS + Web3Auth</li>
+                  <li className="flex items-center gap-2"><BadgeCheck size={16} className="text-[#c72262]"/> MiniApps com IA e Dashboards</li>
+                  <li className="flex items-center gap-2"><BadgeCheck size={16} className="text-[#c72262]"/> Token gating, staking, badges</li>
                 </ul>
               </CardContent>
             </Card>
@@ -151,7 +151,7 @@ export default function LandingMKS() {
             <Card className="bg-zinc-900 border border-zinc-700 h-full">
               <CardContent className="p-6 space-y-4">
                 <div className="mb-4">
-                  <Shield className="h-8 w-8 text-lime-400" />
+                  <Shield className="h-8 w-8 text-[#c72262]" />
                 </div>
                 <h2 className="text-xl font-semibold">Como Participar</h2>
                 <ol className="text-gray-400 list-decimal list-inside space-y-2">
@@ -174,15 +174,15 @@ export default function LandingMKS() {
             <CardContent className="p-8">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
-                  <h3 className="text-lime-400 font-bold text-xl mb-2">1,000,000</h3>
+                  <h1 className="text-[#c72262] font-bold text-xl mb-2">1,000,000</h1>
                   <p className="text-gray-400 text-sm">Total de tokens $MKS</p>
                 </div>
                 <div>
-                  <h3 className="text-lime-400 font-bold text-xl mb-2">25%</h3>
+                  <h1 className="text-[#c72262] font-bold text-xl mb-2">25%</h1>
                   <p className="text-gray-400 text-sm">Alocado para comunidade</p>
                 </div>
                 <div>
-                  <h3 className="text-lime-400 font-bold text-xl mb-2">Q2 2024</h3>
+                  <h1 className="text-[#c72262] font-bold text-xl mb-2">Q2 2024</h1>
                   <p className="text-gray-400 text-sm">Lançamento previsto</p>
                 </div>
               </div>

@@ -1,0 +1,61 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Função auxiliar para verificar se o usuário está autenticado
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Função auxiliar para verificar se o usuário é dono do documento
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Regras para usuários
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isOwner(userId);
+      allow delete: if false; // Não permitir deleção de usuários
+    }
+    
+    // Regras para transações
+    match /transactions/{transactionId} {
+      allow read: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || 
+         request.auth.token.admin == true);
+      allow create: if isAuthenticated();
+      allow update: if false; // Transações não podem ser alteradas
+      allow delete: if false; // Transações não podem ser deletadas
+    }
+    
+    // Regras para staking
+    match /staking/{stakeId} {
+      allow read: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || 
+         request.auth.token.admin == true);
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+      allow delete: if false; // Stakes não podem ser deletados
+    }
+    
+    // Regras para configurações
+    match /config/{configId} {
+      allow read: if isAuthenticated();
+      allow write: if request.auth.token.admin == true; // Apenas admins podem modificar
+    }
+    
+    // Regras para recompensas
+    match /rewards/{rewardId} {
+      allow read: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || 
+         request.auth.token.admin == true);
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || 
+         request.auth.token.admin == true);
+      allow delete: if false; // Recompensas não podem ser deletadas
+    }
+  }
+} 
