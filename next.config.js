@@ -16,18 +16,6 @@ const nextConfig = {
     config.cache = false; // Disable webpack caching
     return config;
   },
-  // Desabilita rotas API em modo estático
-  rewrites: async () => {
-    if (process.env.NEXT_PUBLIC_STATIC_EXPORT) {
-      return [];
-    }
-    return [
-      {
-        source: '/api/:path*',
-        destination: '/api/:path*',
-      },
-    ];
-  },
   assetPrefix: 'https://markcash.eth.limo',
   basePath: '',
   trailingSlash: true,
