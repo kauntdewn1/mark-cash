@@ -185,8 +185,8 @@ export default function LandingMKS() {
                   <p className="text-gray-400 text-sm">Alocado para comunidade</p>
                 </div>
                 <div>
-                  <h1 className="text-[#c72262] font-bold text-xl mb-2">Q2 2024</h1>
-                  <p className="text-gray-400 text-sm">Lançamento previsto</p>
+                  <h1 className="text-[#c72262] font-bold text-xl mb-2">Q2 2025/2</h1>
+                  <p className="text-gray-400 text-sm">Lançamento programado</p>
                 </div>
               </div>
             </CardContent>
