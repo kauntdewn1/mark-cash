@@ -57,6 +57,7 @@
     "@walletconnect/sign-client": "^2.20.2",
     "@walletconnect/types": "^2.x",
     "@walletconnect/utils": "^2.x",
+    "@web3-storage/w3up-client": "^17.3.0",
     "@web3auth/base": "^9.7.0",
     "@web3auth/ethereum-provider": "^6.1.8",
     "@web3auth/modal": "^10.0.0",
@@ -69,7 +70,7 @@
     "embla-carousel-react": "^8.3.0",
     "eslint": "8.49.0",
     "eslint-config-next": "13.5.1",
-    "ethers": "5.7.2",
+    "ethers": "^6.14.1",
     "firebase": "^11.7.3",
     "firebase-admin": "^13.4.0",
     "firebase-functions": "^6.3.2",
@@ -103,7 +104,6 @@
     "@types/node": "^22.15.18",
     "dotenv": "^16.5.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3",
-    "web3.storage": "^4.5.5"
+    "typescript": "^5.8.3"
   }
 }

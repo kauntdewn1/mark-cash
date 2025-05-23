@@ -16,17 +16,11 @@ export function WalletAuth() {
       try {
         const web3authInstance = new Web3Auth({
           clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID!,
-          web3AuthNetwork: 'mainnet',
+          web3AuthNetwork: 'sapphire_devnet',
           enableLogging: true,
         });
-          // Removido código duplicado e inválido. Configurações já estão no construtor acima.
-        // Se estiver usando @web3auth/modal, o método correto é initModal()
-        // Se não, remova ou ajuste conforme a documentação da versão usada
-        if (typeof (web3authInstance as any).initModal === 'function') {
-          await (web3authInstance as any).initModal();
-        } else if (typeof (web3authInstance as any).init === 'function') {
-          await (web3authInstance as any).init();
-        }
+
+        await web3authInstance.init();
         setWeb3auth(web3authInstance);
       } catch (error) {
         console.error('Erro ao inicializar Web3Auth:', error);
