@@ -6,10 +6,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { BadgeCheck, ChevronsUp, Webhook, Shield } from "lucide-react";
 import { motion } from "framer-motion";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { Web3Auth } from "@web3auth/modal";
-import { CHAIN_NAMESPACES } from "@web3auth/base";
 import { auth } from "@/firebase/firebase-config";
 import dynamic from 'next/dynamic';
+import { useAccount, useConnect } from 'wagmi';
+import { BrutalistCountdown } from './BrutalistCountdown';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { useToast } from '@/hooks/use-toast';
 
 // Importação dinâmica dos componentes
 const HeroSection = dynamic(() => import('./HeroSection'), { ssr: false });
@@ -26,67 +29,50 @@ const stakeWallet = async (wallet: string) => {
   return true;
 };
 
+const UNISWAP_LINK = 'https://app.uniswap.org/swap?outputCurrency=0x0000000000000000000000000000000000000000';
+
 export default function LandingMKS() {
-  const [wallet, setWallet] = useState<string>("");
-  const [isStaked, setIsStaked] = useState<boolean>(false);
+  const { address, isConnected } = useAccount();
+  const { connect, connectors } = useConnect();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (!wallet) return;
-    checkStakeStatus(wallet).then((res) => {
-      setIsStaked(res.staked);
-    });
-  }, [wallet]);
-
-  const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-    } catch (error) {
-      console.error("Erro no login com Google:", error);
-    }
-  };
-
-  const handleWeb3Login = async () => {
-    try {
-      const chainConfig = {
-        chainNamespace: CHAIN_NAMESPACES.EIP155,
-        chainId: "0x1",
-        rpcTarget: process.env.NEXT_PUBLIC_INFURA_RPC_URL || "https://mainnet.infura.io/v3/YOUR_INFURA_ID",
-        displayName: "Ethereum Mainnet",
-        blockExplorer: "https://etherscan.io",
-        ticker: "ETH",
-        tickerName: "Ethereum"
-      };
-
-      const web3auth = new Web3Auth({
-        clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID!,
-        web3AuthNetwork: "mainnet",
-        chainConfig: chainConfig,
-        enableLogging: true,
+  const handleWhitelist = async () => {
+    if (!isConnected || !address) {
+      toast({
+        title: "Erro",
+        description: "Por favor, conecte sua wallet primeiro",
+        variant: "destructive"
       });
-
-      await web3auth.initModal();
-      const web3authProvider = await web3auth.connect();
-      
-      if (web3authProvider) {
-        const accounts = await web3authProvider.request({ method: "eth_accounts" }) as string[];
-        if (accounts && accounts.length > 0) {
-          setWallet(accounts[0]);
-        }
-      }
-    } catch (error) {
-      console.error("Erro no login com Web3Auth:", error);
-    }
-  };
-
-  const handleStakeClick = async () => {
-    if (!wallet) {
-      // Se não tiver wallet, tenta conectar primeiro
-      await handleWeb3Login();
       return;
     }
-    await stakeWallet(wallet);
-    setIsStaked(true);
+
+    try {
+      setIsLoading(true);
+      
+      // Registrar na whitelist
+      await addDoc(collection(db, 'whitelist'), {
+        wallet: address,
+        timestamp: serverTimestamp()
+      });
+
+      // Abrir Uniswap
+      window.open(UNISWAP_LINK, '_blank');
+      
+      toast({
+        title: "Sucesso!",
+        description: "Wallet registrada na whitelist com sucesso!",
+      });
+    } catch (error) {
+      console.error('Erro ao registrar na whitelist:', error);
+      toast({
+        title: "Erro",
+        description: "Erro ao registrar na whitelist. Tente novamente.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const fadeIn = {
@@ -210,31 +196,97 @@ export default function LandingMKS() {
                   viewport={{ once: true }}
                   className="text-3xl font-bold text-center lg:text-left"
                 >
-                  Em breve você poderá participar do Ecossistema
+                  Estatísticas do Token
                 </motion.h3>
 
-                <div className="bg-gray-800/50 border border-dashed border-gray-400 rounded-lg p-6 flex flex-col items-center gap-4 opacity-60 cursor-not-allowed select-none">
-                  <motion.p
+                <div className="bg-gray-800/50 border border-gray-400 rounded-lg p-6 flex flex-col items-center gap-4">
+                  <div className="grid grid-cols-2 gap-4 w-full">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.2 }}
+                      className="bg-gray-900/50 p-4 rounded-lg text-center"
+                    >
+                      <p className="text-sm text-gray-400">Holders</p>
+                      <p className="text-2xl font-bold text-yellow-500">1,234</p>
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 }}
+                      className="bg-gray-900/50 p-4 rounded-lg text-center"
+                    >
+                      <p className="text-sm text-gray-400">Volume 24h</p>
+                      <p className="text-2xl font-bold text-green-500">$45.2K</p>
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.4 }}
+                      className="bg-gray-900/50 p-4 rounded-lg text-center"
+                    >
+                      <p className="text-sm text-gray-400">Liquidez</p>
+                      <p className="text-2xl font-bold text-blue-500">$128.5K</p>
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.5 }}
+                      className="bg-gray-900/50 p-4 rounded-lg text-center"
+                    >
+                      <p className="text-sm text-gray-400">Preço</p>
+                      <p className="text-2xl font-bold text-pink-500">$0.00012</p>
+                    </motion.div>
+                  </div>
+
+                  <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: 0.2 }}
-                    className="text-lg text-gray-400 text-center lg:text-left"
+                    transition={{ delay: 0.6 }}
+                    className="mt-4 text-center"
                   >
-                    Faça parte da revolução do marketing descentralizado. Stake seus tokens e ganhe recompensas.
-                  </motion.p>
-                  <button
-                    className="mt-2 px-6 py-2 rounded bg-gray-700 text-gray-400 font-semibold opacity-70 cursor-not-allowed"
-                    disabled
-                  >
-                    Stake (em breve)
-                  </button>
+                    <a
+                      href="https://app.uniswap.org/#/swap?outputCurrency=0x58edcf4b0ae4591b873664734fd6731ae1aae962"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block px-6 py-2 rounded bg-yellow-500 text-black font-semibold hover:bg-yellow-600 transition-colors"
+                    >
+                      Comprar no Uniswap
+                    </a>
+                  </motion.div>
                 </div>
               </div>
             </div>
           </div>
         </section>
         </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.8 }}
+        >
+          {!isConnected ? (
+            <button
+              onClick={() => connect({ connector: connectors[0] })}
+              className="bg-black text-white px-8 py-3 rounded-none border-2 border-[rgb(223,15,95)] hover:bg-[rgb(223,15,95)] transition-colors"
+            >
+              Conectar Wallet
+            </button>
+          ) : (
+            <button
+              onClick={handleWhitelist}
+              disabled={isLoading}
+              className="bg-black text-white px-8 py-3 rounded-none border-2 border-[rgb(223,15,95)] hover:bg-[rgb(223,15,95)] transition-colors disabled:opacity-50"
+            >
+              {isLoading ? 'Processando...' : 'Participar da Whitelist'}
+            </button>
+          )}
+        </motion.div>
     </main>
   );
 }

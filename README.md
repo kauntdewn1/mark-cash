@@ -31,9 +31,32 @@ git clone https://github.com/kauntdewn1/mark-cash.git
 yarn install
 ```
 
+2.1 Se já estiver trabalhando considere limpar o cache
+```bash
+yarn cache clean
+
+Remover a pasta node_modules e o arquivo yarn.lock:
+rm -rf node_modules yarn.lock
+
+Reinstalar as dependências:
+yarn install
+
+2.3 Instala essas disgracas
+```bash
+yarn add wagmi viem
+yarn add bs58 @solana/web3.js
+yarn add date-fns
+yarn add papaparse @types/papaparse
+yarn add wagmi viem @tanstack/react-query
+yarn add @web3auth/modal
+yarn add @radix-ui/react-toast class-variance-authority lucide-react
+yarn add clsx tailwind-merge
+yarn add @web3auth/modal @web3auth/base
+yarn add ethers@5.7.2
+
 3. Configure as variáveis de ambiente
 ```bash
-cp .env.example .env.local
+cp .env.local
 ```
 
 4. Inicie o servidor de desenvolvimento

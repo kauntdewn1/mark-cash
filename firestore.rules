@@ -11,6 +11,11 @@ service cloud.firestore {
       return isAuthenticated() && request.auth.uid == userId;
     }
 
+    // Função auxiliar para verificar se a wallet corresponde ao token
+    function isValidWallet() {
+      return request.auth.token.wallet_address == request.resource.data.wallet;
+    }
+
     // Regras para usuários
     match /users/{userId} {
       allow read: if isOwner(userId);
@@ -56,6 +61,14 @@ service cloud.firestore {
         (resource.data.userId == request.auth.uid || 
          request.auth.token.admin == true);
       allow delete: if false; // Recompensas não podem ser deletadas
+    }
+
+    // Regras para whitelist
+    match /whitelist/{docId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && isValidWallet();
+      allow update: if false; // Não permitir atualizações
+      allow delete: if false; // Não permitir deleções
     }
   }
 } 

@@ -1,11 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, Space_Mono } from 'next/font/google';
-import { ThemeProvider } from '@/components/theme-provider';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
 import { type Viewport } from 'next';
-import { MarqueeBar } from '@/components/MarqueeBar';
+import { Providers } from '@/app/providers';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -68,9 +65,9 @@ export const themeColor = '#000000';
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="pt-BR" className="dark">
       <head>
@@ -79,20 +76,9 @@ export default function RootLayout({
         <meta name="theme-color" content="#000000" />
       </head>
       <body className={`${inter.variable} ${spaceMono.variable} font-sans`}>
-        <ThemeProvider 
-          attribute="class" 
-          defaultTheme="dark" 
-          enableSystem={false}
-        >
-          <Header />
-          <main className="min-h-screen pt-16">
-            {children}
-          </main>
-          <MarqueeBar />
-          <Footer />
-          <div className="scanline" />
-          <div className="crt-effect" />
-        </ThemeProvider>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
