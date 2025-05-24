@@ -13,6 +13,7 @@ import { BrutalistCountdown } from './BrutalistCountdown';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
+import { MarqueeBar } from '@/components/MarqueeBar';
 
 // Importação dinâmica dos componentes
 const HeroSection = dynamic(() => import('./HeroSection'), { ssr: false });
@@ -264,29 +265,9 @@ export default function LandingMKS() {
             </div>
           </div>
         </section>
-        </div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.8 }}
-        >
-          {!isConnected ? (
-            <button
-              onClick={() => connect({ connector: connectors[0] })}
-              className="bg-black text-white px-8 py-3 rounded-none border-2 border-[rgb(223,15,95)] hover:bg-[rgb(223,15,95)] transition-colors"
-            >
-              Conectar Wallet
-            </button>
-          ) : (
-            <button
-              onClick={handleWhitelist}
-              disabled={isLoading}
-              className="bg-black text-white px-8 py-3 rounded-none border-2 border-[rgb(223,15,95)] hover:bg-[rgb(223,15,95)] transition-colors disabled:opacity-50"
-            >
-              {isLoading ? 'Processando...' : 'Participar da Whitelist'}
-            </button>
-          )}
-        </motion.div>
+      </div>
+
+      <MarqueeBar />
     </main>
   );
 }
