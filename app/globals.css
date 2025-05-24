@@ -1,8 +1,85 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Satoshi:wght@400;700&family=Inter:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap');
+
+@font-face {
+  font-family: 'FK Grotesk';
+  src: url('/fonts/fk-grotesk/FKGroteskNeueTrial-Regular-BF6576818c3af74.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FK Grotesk';
+  src: url('/fonts/fk-grotesk/FKGroteskNeueTrial-Bold-BF6576818bd3700.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FK Grotesk';
+  src: url('/fonts/fk-grotesk/FKGroteskNeueTrial-Medium-BF6576818c3a00a.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FK Grotesk';
+  src: url('/fonts/fk-grotesk/FKGroteskNeueTrial-Light-BF6576818c0f3e8.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FK Grotesk';
+  src: url('/fonts/fk-grotesk/FKGroteskNeueTrial-Black-BF6576818b4c472.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FK Grotesk';
+  src: url('/fonts/fk-grotesk/FKGroteskNeueTrial-Italic-BF6576818c041e2.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FK Grotesk';
+  src: url('/fonts/fk-grotesk/FKGroteskNeueTrial-BoldItalic-BF6576818c39d11.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FK Grotesk';
+  src: url('/fonts/fk-grotesk/FKGroteskNeueTrial-MediumItalic-BF6576818c2aaf8.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FK Grotesk';
+  src: url('/fonts/fk-grotesk/FKGroteskNeueTrial-LightItalic-BF6576818c3183c.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FK Grotesk';
+  src: url('/fonts/fk-grotesk/FKGroteskNeueTrial-BlackItalic-BF6576818becb0d.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
 
 :root {
+  --font-satoshi: 'Satoshi', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+  --font-space-grotesk: 'Space Grotesk', sans-serif;
+  --font-fkgrotesk: 'FK Grotesk', sans-serif;
+  --font-sans: var(--font-satoshi); /* Fonte padrão, altere se quiser */
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -47,7 +124,6 @@
     /* Markcash custom variables */
     --background-start: #000000;
     --background-end: #000000;
-    --font-sans: ui-sans-serif, system-ui, sans-serif;
     --font-mono: ui-monospace, monospace;
   }
   
@@ -84,7 +160,6 @@
     -webkit-text-size-adjust: 100%;
     font-feature-settings: normal;
     -webkit-tap-highlight-color: transparent;
-    font-family: var(--font-sans);
     font-variation-settings: normal;
     line-height: 1.5;
     -moz-tab-size: 4;
@@ -94,15 +169,16 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[hsl(var(--background))] text-[hsl(var(--foreground))];
     min-height: 100vh;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
   
   * {
-    @apply border-border;
+    @apply border-[hsl(var(--border))];
   }
 }
 

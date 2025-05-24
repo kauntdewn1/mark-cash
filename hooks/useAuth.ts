@@ -44,11 +44,4 @@ export function useAuth() {
     logout,
     isAuthenticated: !!user,
   };
-}
-
-// Função temporária - você precisará implementar a lógica real de obtenção do token
-async function getCustomToken(walletAddress: string): Promise<string> {
-  // Aqui você deve fazer uma chamada para seu backend para obter um token personalizado
-  // usando o walletAddress
-  throw new Error('Implemente a lógica de obtenção do token personalizado');
 } 

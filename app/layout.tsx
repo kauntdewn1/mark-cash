@@ -66,7 +66,7 @@ export const themeColor = '#000000';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="pt-BR" className="dark">
+    <html lang="pt-BR" className={`dark ${inter.variable} ${spaceMono.variable}`}>
       <head>
         <link rel="icon" href="/web-app-manifest-512x512.png" type="image/png" />
         <link rel="apple-touch-icon" href="/web-app-manifest-512x512.png" />

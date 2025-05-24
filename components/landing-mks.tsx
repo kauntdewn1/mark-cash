@@ -54,52 +54,73 @@ export default function LandingMKS() {
             variants={fadeIn}
           >
             <Card className="bg-zinc-900 border border-zinc-700 h-full">
-              <CardContent className="p-6 space-y-4">
-                <div className="mb-4">
-                  <ChevronsUp className="h-10 w-10 text-[#c72262]" />
-                </div>
-                <h2 className="text-xl font-semibold">Por que $MKS?</h2>
-                <p className="text-gray-400">
-                  Big Techs dominaram o marketing. Com $MKS, você reconquista seu alcance, sua base e sua receita sem intermediários.
-                </p>
-              </CardContent>
-            </Card>
+  <CardContent className="p-6 space-y-4">
+    <div className="mb-4">
+      <ChevronsUp className="h-10 w-10 text-[#c72262]" />
+    </div>
+    <h2 className="text-xl font-semibold text-white tracking-tight">
+      Por que $MKS?
+    </h2>
+    <p className="text-gray-400 leading-relaxed">
+      As Big Techs monetizam sua atenção.<br />
+      Com <span className="text-[#ac134c] font-semibold">$MKS</span>, você retoma o controle do seu público, da sua receita e da sua jornada — sem algoritmos ou intermediários.
+    </p>
+  </CardContent>
+</Card>
+
           </motion.div>
 
           <motion.div
             variants={fadeIn}
           >
             <Card className="bg-zinc-900 border border-zinc-700 h-full">
-              <CardContent className="p-6 space-y-4">
-                <div className="mb-4">
-                  <Webhook className="h-8 w-8 text-[#c72262]" />
-                </div>
-                <h2 className="text-xl font-semibold">Infraestrutura Real</h2>
-                <ul className="text-gray-400 space-y-2">
-                  <li className="flex items-center gap-2"><BadgeCheck size={16} className="text-[#c72262]"/> Firebase + IPFS + Web3Auth</li>
-                  <li className="flex items-center gap-2"><BadgeCheck size={16} className="text-[#c72262]"/> MiniApps com IA e Dashboards</li>
-                  <li className="flex items-center gap-2"><BadgeCheck size={16} className="text-[#c72262]"/> Token gating, staking, badges</li>
-                </ul>
-              </CardContent>
-            </Card>
+  <CardContent className="p-6 space-y-4">
+    <div className="mb-4">
+      <Webhook className="h-8 w-8 text-[#ac134c]" />
+    </div>
+    <h2 className="text-xl font-semibold text-white tracking-tight">
+      Infraestrutura Descentralizada
+    </h2>
+    <ul className="text-gray-400 space-y-2 text-sm leading-relaxed">
+      <li className="flex items-center gap-2">
+        <BadgeCheck size={16} className="text-[#c72262]" />
+        Firebase + IPFS + Web3Auth integrados para acesso seguro
+      </li>
+      <li className="flex items-center gap-2">
+        <BadgeCheck size={16} className="text-[#c72262]" />
+        MiniApps com IA, dashboards e automações inteligentes
+      </li>
+      <li className="flex items-center gap-2">
+        <BadgeCheck size={16} className="text-[#c72262]" />
+        Token gating, staking e reputação com badges on-chain
+      </li>
+    </ul>
+  </CardContent>
+</Card>
+
           </motion.div>
 
           <motion.div
             variants={fadeIn}
           >
             <Card className="bg-zinc-900 border border-zinc-700 h-full">
-              <CardContent className="p-6 space-y-4">
-                <div className="mb-4">
-                  <Shield className="h-8 w-8 text-[#c72262]" />
-                </div>
-                <h2 className="text-xl font-semibold">Como Participar</h2>
-                <ol className="text-gray-400 list-decimal list-inside space-y-2">
-                  <li className="pl-2">Conecte sua carteira</li>
-                  <li className="pl-2">Entre na whitelist</li>
-                  <li className="pl-2">Receba, stake ou utilize o $MKS</li>
-                </ol>
-              </CardContent>
-            </Card>
+  <CardContent className="p-6 space-y-4">
+    <div className="mb-4">
+      <Shield className="h-8 w-8 text-[#c72262]" />
+    </div>
+    <h2 className="text-xl font-semibold text-white tracking-tight">
+      Como Participar
+    </h2>
+    <ol className="text-gray-400 list-decimal list-inside space-y-2 text-sm leading-relaxed">
+      <li className="pl-2">Conecte sua carteira Web3</li>
+      <li className="pl-2">Valide seu acesso na whitelist da Fase I</li>
+      <li className="pl-2">
+        Receba, stakeie ou utilize seus <span className="text-[#ac134c] font-bold">$MKS</span> para ativar utilidades e recompensas
+      </li>
+    </ol>
+  </CardContent>
+</Card>
+
           </motion.div>
         </motion.section>
 

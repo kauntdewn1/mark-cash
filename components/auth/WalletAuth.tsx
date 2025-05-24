@@ -40,7 +40,10 @@ export function WalletAuth() {
           },
         });
 
-        (web3authInstance as any).configureAdapter?.(openloginAdapter);
+        // Removendo o uso de "any" para evitar problemas de tipagem
+        if ('configureAdapter' in web3authInstance && typeof web3authInstance.configureAdapter === 'function') {
+          web3authInstance.configureAdapter(openloginAdapter);
+        }
         await web3authInstance.init();
         setWeb3auth(web3authInstance);
       } catch (error) {

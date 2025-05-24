@@ -1,16 +1,16 @@
 // lib/firestore/users.ts
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, Timestamp, updateDoc } from 'firebase/firestore';
 import { db } from '@/app/lib/firebase-config';
 
 export interface UserData {
   email?: string | null;
   balance: number;
-  createdAt: any;
-  lastStakeDate: any;
+  createdAt: Timestamp;
+  lastStakeDate: Timestamp;
   role?: 'user' | 'admin';
   stakedAmount: number;
   uid: string;
-  updatedAt: any;
+  updatedAt: Timestamp;
   walletAddress: string;
 }
 
