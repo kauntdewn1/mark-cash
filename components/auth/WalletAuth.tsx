@@ -16,7 +16,16 @@ export function WalletAuth() {
       try {
         const web3authInstance = new Web3Auth({
           clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID!,
-          web3AuthNetwork: 'sapphire_devnet',
+          web3AuthNetwork: 'mainnet',
+          chainConfig: {
+            chainNamespace: CHAIN_NAMESPACES.EIP155,
+            chainId: '0x1',
+            rpcTarget: 'https://rpc.ankr.com/eth',
+            displayName: 'Ethereum Mainnet',
+            blockExplorer: 'https://etherscan.io',
+            ticker: 'ETH',
+            tickerName: 'Ethereum',
+          },
           enableLogging: true,
         });
 
