@@ -1,14 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { BadgeCheck, ChevronsUp, Webhook, Shield } from "lucide-react";
 import { motion } from "framer-motion";
 import dynamic from 'next/dynamic';
 import { useAccount, useConnect } from 'wagmi';
-import { collection, addDoc, serverTimestamp, query, where, getDocs, updateDoc, increment } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import { useToast } from '@/hooks/use-toast';
 import { MarqueeBar } from '@/components/MarqueeBar';
 
 
@@ -24,51 +21,9 @@ const PriceDisplay = dynamic(() => import('./PriceDisplay'), {
 });
 
 
-const UNISWAP_LINK = 'https://app.uniswap.org/swap?outputCurrency=0x58edcf4b0ae4591b873664734fd6731ae1aae962';
-
 export default function LandingMKS() {
-  const { address, isConnected } = useAccount();
+  useAccount();
   useConnect();
-  const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleWhitelist = async () => {
-    if (!isConnected || !address) {
-      toast({
-        title: "Erro",
-        description: "Por favor, conecte sua wallet primeiro",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      
-      // Registrar na whitelist
-      await addDoc(collection(db, 'whitelist'), {
-        wallet: address,
-        timestamp: serverTimestamp()
-      });
-
-      // Abrir Uniswap
-      window.open(UNISWAP_LINK, '_blank');
-      
-      toast({
-        title: "Sucesso!",
-        description: "Wallet registrada na whitelist com sucesso!",
-      });
-    } catch (error) {
-      console.error('Erro ao registrar na whitelist:', error);
-      toast({
-        title: "Erro",
-        description: "Erro ao registrar na whitelist. Tente novamente.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
