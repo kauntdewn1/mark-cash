@@ -11,70 +11,24 @@ import { db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { MarqueeBar } from '@/components/MarqueeBar';
 
+
 // Importação dinâmica dos componentes
-const HeroSection = dynamic(() => import('./HeroSection'), { ssr: false });
-const PriceDisplay = dynamic(() => import('./PriceDisplay'), { ssr: false });
+const HeroSection = dynamic(() => import('./HeroSection'), { 
+  ssr: false,
+  loading: () => <div className="min-h-[50vh] flex items-center justify-center">Carregando...</div>
+});
 
-// Funções de staking
-const checkStakeStatus = async (wallet: string) => {
-  try {
-    const stakeRef = collection(db, 'staking');
-    const q = query(stakeRef, where('wallet', '==', wallet));
-    const querySnapshot = await getDocs(q);
-    
-    if (querySnapshot.empty) {
-      return { staked: false, amount: 0 };
-    }
+const PriceDisplay = dynamic(() => import('./PriceDisplay'), { 
+  ssr: false,
+  loading: () => <div className="aspect-square bg-black border border-lime-500 flex items-center justify-center">Carregando...</div>
+});
 
-    const stakeData = querySnapshot.docs[0].data();
-    return {
-      staked: true,
-      amount: stakeData.amount || 0,
-      timestamp: stakeData.timestamp?.toDate()
-    };
-  } catch (error) {
-    console.error('Erro ao verificar status de staking:', error);
-    throw new Error('Falha ao verificar status de staking');
-  }
-};
-
-const stakeWallet = async (wallet: string, amount: number) => {
-  try {
-    const stakeRef = collection(db, 'staking');
-    
-    // Verifica se já existe um stake para esta wallet
-    const q = query(stakeRef, where('wallet', '==', wallet));
-    const querySnapshot = await getDocs(q);
-    
-    if (!querySnapshot.empty) {
-      // Atualiza o stake existente
-      const docRef = querySnapshot.docs[0].ref;
-      await updateDoc(docRef, {
-        amount: increment(amount),
-        lastUpdated: serverTimestamp()
-      });
-    } else {
-      // Cria um novo stake
-      await addDoc(stakeRef, {
-        wallet,
-        amount,
-        timestamp: serverTimestamp(),
-        lastUpdated: serverTimestamp()
-      });
-    }
-
-    return true;
-  } catch (error) {
-    console.error('Erro ao realizar staking:', error);
-    throw new Error('Falha ao realizar staking');
-  }
-};
 
 const UNISWAP_LINK = 'https://app.uniswap.org/swap?outputCurrency=0x58edcf4b0ae4591b873664734fd6731ae1aae962';
 
 export default function LandingMKS() {
   const { address, isConnected } = useAccount();
-  const { connect, connectors } = useConnect();
+  useConnect();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 

@@ -1,5 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
+import { ReactNode } from 'react';
 import { Inter, Space_Mono } from 'next/font/google';
 import { type Viewport } from 'next';
 import { Providers } from '@/app/providers';
@@ -63,19 +64,14 @@ export const viewport: Viewport = {
 
 export const themeColor = '#000000';
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR" className="dark">
       <head>
         <link rel="icon" href="/web-app-manifest-512x512.png" type="image/png" />
         <link rel="apple-touch-icon" href="/web-app-manifest-512x512.png" />
-        <meta name="theme-color" content="#000000" />
       </head>
-      <body className={`${inter.variable} ${spaceMono.variable} font-sans`}>
+      <body>
         <Providers>
           {children}
         </Providers>

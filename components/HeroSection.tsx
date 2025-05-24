@@ -6,6 +6,7 @@ import { BrutalistCountdown } from './BrutalistCountdown';
 import { db } from '@/lib/firebase';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { useWeb3 } from '@/hooks/useWeb3';
+import { useEffect, useState } from 'react';
 
 const CONTRACT_ADDRESS = "0x58edcf4b0ae4591b873664734fd6731ae1aae962";
 const TOKEN_DECIMALS = 18;
@@ -17,6 +18,11 @@ const endDate = new Date(Date.now() + 1000 * 60 * 60 * 72); // 72 horas
 
 export default function HeroSection() {
   const { address, login, isConnected } = useWeb3();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleWhitelist = async () => {
     if (!isConnected) {
@@ -42,6 +48,10 @@ export default function HeroSection() {
       alert('Erro ao registrar whitelist. Verifique se sua wallet está conectada corretamente.');
     }
   };
+
+  if (!isMounted) {
+    return <div className="min-h-[50vh] flex items-center justify-center">Carregando...</div>;
+  }
 
   return (
     <section className="relative min-h-[50vh] flex items-start justify-center overflow-hidden pt-10">

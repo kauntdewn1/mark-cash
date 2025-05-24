@@ -42,12 +42,18 @@ async function getTokenSupply(contractAddress: string): Promise<string | null> {
 const PriceDisplay: FC<PriceDisplayProps> = ({ nftData }) => {
   const [showTerminal, setShowTerminal] = useState(true);
   const [supply, setSupply] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     if (nftData?.contractAddress) {
       getTokenSupply(nftData.contractAddress).then(setSupply);
     }
   }, [nftData?.contractAddress]);
+
+  if (!isMounted) {
+    return <div className="aspect-square bg-black border border-lime-500 flex items-center justify-center">Carregando...</div>;
+  }
 
   return (
     <motion.div
