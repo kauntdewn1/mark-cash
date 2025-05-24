@@ -2,15 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { collection, query, orderBy, getDocs, updateDoc, doc } from 'firebase/firestore';
-import { db } from '@/firebase/firebase-config';
+import { db } from '@/app/lib/firebase-config';
 import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import { ptBR } from '@/node_modules/date-fns/locale';
 import Papa from 'papaparse';
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useAuth } from '@/hooks/useAuth';
+import { Button } from '@/components/ui/button';
 
 interface Stake {
   id: string;
@@ -34,39 +35,43 @@ export default function StakersAdmin() {
     activeStakes: 0,
     totalRewards: 0
   });
-  const { user } = useAuth();
 
+  const { user } = useAuth();
+  const router = useRouter();
+
+  // Bloqueia acesso se não for admin
+  useEffect(() => {
+    if ((user as any).role !== 'admin') {
+      router.push('/');
+    }
+  }, [user, router]);
+
+  // Busca stakes ao montar
   useEffect(() => {
     const fetchStakes = async () => {
       try {
-        const stakesRef = collection(db, 'stakes');
-        const q = query(stakesRef, orderBy('startDate', 'desc'));
+        const q = query(collection(db!, 'stakes'), orderBy('startDate', 'desc'));
         const querySnapshot = await getDocs(q);
-        
-        const stakesData = querySnapshot.docs.map(doc => ({
+
+        const data = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
           startDate: doc.data().startDate.toDate(),
           endDate: doc.data().endDate.toDate()
         })) as Stake[];
 
-        setStakes(stakesData);
-        setFiltered(stakesData);
+        setStakes(data);
+        setFiltered(data);
 
-        // Calcular estatísticas
-        const uniqueStakers = new Set(stakesData.map(stake => stake.userId)).size;
-        const activeStakes = stakesData.filter(stake => stake.status === 'active').length;
-        const totalStaked = stakesData.reduce((acc, stake) => acc + stake.amount, 0);
-        const totalRewards = stakesData.reduce((acc, stake) => acc + stake.rewards, 0);
-
+        // Estatísticas
         setStats({
-          totalStaked,
-          uniqueStakers,
-          activeStakes,
-          totalRewards
+          totalStaked: data.reduce((acc, s) => acc + s.amount, 0),
+          uniqueStakers: new Set(data.map(s => s.userId)).size,
+          activeStakes: data.filter(s => s.status === 'active').length,
+          totalRewards: data.reduce((acc, s) => acc + s.rewards, 0)
         });
-      } catch (error) {
-        console.error('Erro ao buscar stakes:', error);
+      } catch (err) {
+        console.error('Erro ao buscar stakes:', err);
       } finally {
         setLoading(false);
       }
@@ -76,53 +81,49 @@ export default function StakersAdmin() {
   }, []);
 
   const handleFilter = () => {
-    const filtered = stakes.filter((s) => {
-      const matchWallet = s.userId?.toLowerCase().includes(search.toLowerCase());
-      const matchStatus = statusFilter === 'all' || s.status === statusFilter;
-      return matchWallet && matchStatus;
-    });
-    setFiltered(filtered);
+    setFiltered(
+      stakes.filter(s => {
+        const matchWallet = s.userId.toLowerCase().includes(search.toLowerCase());
+        const matchStatus = statusFilter === 'all' || s.status === statusFilter;
+        return matchWallet && matchStatus;
+      })
+    );
   };
 
   const exportCSV = () => {
-    const csvData = filtered.map(stake => ({
-      Wallet: stake.userId,
-      Amount: stake.amount,
-      Status: stake.status,
-      'Data Início': format(stake.startDate, 'dd/MM/yyyy'),
-      'Data Fim': format(stake.endDate, 'dd/MM/yyyy'),
-      Rewards: stake.rewards
+    const csvData = filtered.map(s => ({
+      Wallet: s.userId,
+      Amount: s.amount,
+      Status: s.status,
+      'Data Início': format(s.startDate, 'dd/MM/yyyy'),
+      'Data Fim': format(s.endDate, 'dd/MM/yyyy'),
+      Rewards: s.rewards
     }));
 
     const csv = Papa.unparse(csvData);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.href = url;
+    link.href = URL.createObjectURL(blob);
     link.setAttribute('download', `stakes_export_${format(new Date(), 'yyyy-MM-dd')}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
-  const markCompleted = async (docId: string) => {
+  const markCompleted = async (id: string) => {
     try {
-      await updateDoc(doc(db, 'stakes', docId), { status: 'completed' });
-      setFiltered((prev) =>
-        prev.map((s) => (s.id === docId ? { ...s, status: 'completed' } : s))
-      );
-      setStakes((prev) =>
-        prev.map((s) => (s.id === docId ? { ...s, status: 'completed' } : s))
-      );
-    } catch (error) {
-      console.error('Erro ao atualizar status:', error);
+      await updateDoc(doc(db!, 'stakes', id), { status: 'completed' });
+      setStakes(prev => prev.map(s => s.id === id ? { ...s, status: 'completed' } : s));
+      setFiltered(prev => prev.map(s => s.id === id ? { ...s, status: 'completed' } : s));
+    } catch (err) {
+      console.error('Erro ao atualizar status:', err);
     }
   };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-yellow-500"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-yellow-500" />
       </div>
     );
   }
@@ -130,57 +131,25 @@ export default function StakersAdmin() {
   return (
     <div className="container mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-8">Painel de Administração</h1>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Total Staked</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{stats.totalStaked.toLocaleString()} MKS</p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Stakers Únicos</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{stats.uniqueStakers}</p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Stakes Ativos</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{stats.activeStakes}</p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Total Rewards</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{stats.totalRewards.toLocaleString()} MKS</p>
-          </CardContent>
-        </Card>
+        {[
+          { title: 'Total Staked', value: `${stats.totalStaked.toLocaleString()} MKS` },
+          { title: 'Stakers Únicos', value: stats.uniqueStakers },
+          { title: 'Stakes Ativos', value: stats.activeStakes },
+          { title: 'Total Rewards', value: `${stats.totalRewards.toLocaleString()} MKS` }
+        ].map(({ title, value }) => (
+          <Card key={title}>
+            <CardHeader><CardTitle className="text-sm">{title}</CardTitle></CardHeader>
+            <CardContent><p className="text-2xl font-bold">{value}</p></CardContent>
+          </Card>
+        ))}
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4 mb-8">
-        <Input
-          type="text"
-          placeholder="Filtrar por carteira..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="flex-1"
-        />
+        <Input placeholder="Filtrar por carteira..." value={search} onChange={e => setSearch(e.target.value)} className="flex-1" />
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Status" />
-          </SelectTrigger>
+          <SelectTrigger className="w-[180px]"><SelectValue placeholder="Status" /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Todos</SelectItem>
             <SelectItem value="active">Ativos</SelectItem>
@@ -188,67 +157,27 @@ export default function StakersAdmin() {
             <SelectItem value="cancelled">Cancelados</SelectItem>
           </SelectContent>
         </Select>
-        <Button onClick={handleFilter} variant="default">
-          Filtrar
-        </Button>
-        <Button onClick={exportCSV} variant="secondary">
-          Exportar CSV
-        </Button>
+        <Button onClick={handleFilter}>Filtrar</Button>
+        <Button onClick={exportCSV} variant="secondary">Exportar CSV</Button>
       </div>
 
       <div className="grid gap-4">
-        {filtered.map((stake) => (
+        {filtered.map(stake => (
           <Card key={stake.id}>
-            <CardContent className="p-4">
+            <CardContent className="p-4 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div>
-                  <p className="text-sm text-gray-500">Wallet</p>
-                  <p className="font-medium">{stake.userId.slice(0, 6)}...{stake.userId.slice(-4)}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Amount</p>
-                  <p className="font-medium">{stake.amount.toLocaleString()} MKS</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Status</p>
-                  <p className={`font-medium ${
-                    stake.status === 'active' ? 'text-green-500' :
-                    stake.status === 'completed' ? 'text-blue-500' :
-                    'text-red-500'
-                  }`}>
-                    {stake.status === 'active' ? 'Ativo' :
-                     stake.status === 'completed' ? 'Completado' :
-                     'Cancelado'}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Rewards</p>
-                  <p className="font-medium">{stake.rewards.toLocaleString()} MKS</p>
-                </div>
+                <div><p className="text-sm text-gray-500">Wallet</p><p className="font-medium">{stake.userId.slice(0, 6)}...{stake.userId.slice(-4)}</p></div>
+                <div><p className="text-sm text-gray-500">Amount</p><p className="font-medium">{stake.amount.toLocaleString()} MKS</p></div>
+                <div><p className="text-sm text-gray-500">Status</p><p className={`font-medium ${stake.status === 'active' ? 'text-green-500' : stake.status === 'completed' ? 'text-blue-500' : 'text-red-500'}`}>{stake.status}</p></div>
+                <div><p className="text-sm text-gray-500">Rewards</p><p className="font-medium">{stake.rewards.toLocaleString()} MKS</p></div>
               </div>
-              <div className="mt-4 grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-gray-500">Início</p>
-                  <p className="font-medium">
-                    {format(stake.startDate, "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Fim</p>
-                  <p className="font-medium">
-                    {format(stake.endDate, "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
-                  </p>
-                </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div><p className="text-sm text-gray-500">Início</p><p className="font-medium">{format(stake.startDate, "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}</p></div>
+                <div><p className="text-sm text-gray-500">Fim</p><p className="font-medium">{format(stake.endDate, "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}</p></div>
               </div>
               {stake.status !== 'completed' && (
-                <div className="mt-4 flex justify-end">
-                  <Button
-                    onClick={() => markCompleted(stake.id)}
-                    variant="outline"
-                    className="bg-blue-600 hover:bg-blue-700 text-white"
-                  >
-                    Marcar como concluído
-                  </Button>
+                <div className="flex justify-end">
+                  <Button onClick={() => markCompleted(stake.id)} className="bg-blue-600 hover:bg-blue-700 text-white">Marcar como concluído</Button>
                 </div>
               )}
             </CardContent>
@@ -257,4 +186,4 @@ export default function StakersAdmin() {
       </div>
     </div>
   );
-} 
+}

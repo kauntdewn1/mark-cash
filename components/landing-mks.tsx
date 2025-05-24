@@ -1,16 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { BadgeCheck, ChevronsUp, Webhook, Shield } from "lucide-react";
 import { motion } from "framer-motion";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "@/firebase/firebase-config";
 import dynamic from 'next/dynamic';
 import { useAccount, useConnect } from 'wagmi';
-import { BrutalistCountdown } from './BrutalistCountdown';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, query, where, getDocs, updateDoc, increment } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { MarqueeBar } from '@/components/MarqueeBar';
@@ -19,18 +15,62 @@ import { MarqueeBar } from '@/components/MarqueeBar';
 const HeroSection = dynamic(() => import('./HeroSection'), { ssr: false });
 const PriceDisplay = dynamic(() => import('./PriceDisplay'), { ssr: false });
 
-// Funções de staking (mock - implementar com sua lógica real)
+// Funções de staking
 const checkStakeStatus = async (wallet: string) => {
-  // Implementar verificação real do status de staking
-  return { staked: false };
+  try {
+    const stakeRef = collection(db, 'staking');
+    const q = query(stakeRef, where('wallet', '==', wallet));
+    const querySnapshot = await getDocs(q);
+    
+    if (querySnapshot.empty) {
+      return { staked: false, amount: 0 };
+    }
+
+    const stakeData = querySnapshot.docs[0].data();
+    return {
+      staked: true,
+      amount: stakeData.amount || 0,
+      timestamp: stakeData.timestamp?.toDate()
+    };
+  } catch (error) {
+    console.error('Erro ao verificar status de staking:', error);
+    throw new Error('Falha ao verificar status de staking');
+  }
 };
 
-const stakeWallet = async (wallet: string) => {
-  // Implementar lógica real de staking
-  return true;
+const stakeWallet = async (wallet: string, amount: number) => {
+  try {
+    const stakeRef = collection(db, 'staking');
+    
+    // Verifica se já existe um stake para esta wallet
+    const q = query(stakeRef, where('wallet', '==', wallet));
+    const querySnapshot = await getDocs(q);
+    
+    if (!querySnapshot.empty) {
+      // Atualiza o stake existente
+      const docRef = querySnapshot.docs[0].ref;
+      await updateDoc(docRef, {
+        amount: increment(amount),
+        lastUpdated: serverTimestamp()
+      });
+    } else {
+      // Cria um novo stake
+      await addDoc(stakeRef, {
+        wallet,
+        amount,
+        timestamp: serverTimestamp(),
+        lastUpdated: serverTimestamp()
+      });
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Erro ao realizar staking:', error);
+    throw new Error('Falha ao realizar staking');
+  }
 };
 
-const UNISWAP_LINK = 'https://app.uniswap.org/swap?outputCurrency=0x0000000000000000000000000000000000000000';
+const UNISWAP_LINK = 'https://app.uniswap.org/swap?outputCurrency=0x58edcf4b0ae4591b873664734fd6731ae1aae962';
 
 export default function LandingMKS() {
   const { address, isConnected } = useAccount();

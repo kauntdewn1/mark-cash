@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { Web3Auth } from '@web3auth/modal';
 import { CHAIN_NAMESPACES } from '@web3auth/base';
 import { ethers } from 'ethers';
+import { OpenloginAdapter } from '@web3auth/openlogin-adapter';
 
 interface Web3ContextType {
   web3auth: Web3Auth | null;
@@ -38,16 +39,26 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
         const web3authInstance = new Web3Auth({
           clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID!,
           web3AuthNetwork: 'mainnet',
+          enableLogging: true,
+        });
+
+        const openloginAdapter = new OpenloginAdapter({
+          adapterSettings: {
+            network: 'mainnet',
+            clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID!,
+          },
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: '0x1',
             rpcTarget: `https://rpc.ankr.com/eth/${process.env.NEXT_PUBLIC_ANKR_RPC_KEY}`,
             displayName: 'Ethereum Mainnet',
-            blockExplorer: 'https://etherscan.io',
+            blockExplorerUrl: 'https://etherscan.io',
             ticker: 'ETH',
             tickerName: 'Ethereum',
           },
         });
+
+        (web3authInstance as any).configureAdapter?.(openloginAdapter);
 
         await web3authInstance.init();
         setWeb3auth(web3authInstance);

@@ -1,7 +1,7 @@
 import * as admin from 'firebase-admin';
 
 // Inicialização robusta do Firebase Admin
-let adminConfig: admin.AppOptions = {};
+const adminConfig: admin.AppOptions = {};
 
 if (process.env.FIREBASE_PROJECT_ID) {
   // Produção: usar variáveis de ambiente

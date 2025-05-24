@@ -1,88 +1,53 @@
-# MarkCash ($MKS)
+# MARKCASH — $MKS
 
-Token utilitário multi-chain para marketing digital descentralizado.
+MARKCASH é mais que um token.  
+É a **moeda oficial da dominação digital**.
 
-## Tecnologias
+## ⚡ Sobre
 
-- Next.js 14
-- TypeScript
-- Tailwind CSS
-- Web3Auth
-- Firebase
-- IPFS
+$MKS nasceu para descentralizar o marketing.  
+Automação, recompensa, stake, governança e controle — **sem depender de big techs**.  
+Este é o combustível do novo ecossistema: bots, IA, landing pages, miniApps, tudo conectado.
 
-## Funcionalidades
+> Um movimento brutalista para quem está cansado de mendigar alcance.
 
-- Autenticação Web3
-- Staking de tokens
-- Terminal de preços em tempo real
-- Interface retro com efeitos visuais
-- Integração com múltiplas blockchains
+## 🧬 Utilidade
 
-## Configuração
+- Pagamento em plataformas e ferramentas exclusivas (MiniApps, FlowPay, FlowOff, MyMintor)
+- Recompensas por stake e contribuições à comunidade
+- Votações em propostas (DAO)
+- Acesso a grupos fechados e benefícios premium
 
-1. Clone o repositório
-```bash
-git clone https://github.com/kauntdewn1/mark-cash.git
-```
+## 🏁 Supply
 
-2. Instale as dependências
-```bash
-yarn install
-```
+- Máximo: **1.000.000.000 MKS**
+- Rede: Ethereum (ERC-20)  
+- Contrato: [`0x58edcf4b0ae4591b873664734fd6731ae1aae962`](https://etherscan.io/token/0x58edcf4b0ae4591b873664734fd6731ae1aae962)
 
-2.1 Se já estiver trabalhando considere limpar o cache
-```bash
-yarn cache clean
+## 🧱 Ecossistema
 
-Remover a pasta node_modules e o arquivo yarn.lock:
-rm -rf node_modules yarn.lock
+- [markcash.xyz](https://markcash.xyz/)
+- Painel de Stake e Recompensas
+- Dashboard de Governança
+- Integração com Telegram
+- Autenticação via Web3Auth + Firebase
+- Frontend em Next.js + Tailwind
 
-Reinstalar as dependências:
-yarn install
+## 🔐 Autenticação
 
-2.3 Instala essas disgracas
-```bash
-yarn add wagmi viem
-yarn add bs58 @solana/web3.js
-yarn add date-fns
-yarn add papaparse @types/papaparse
-yarn add wagmi viem @tanstack/react-query
-yarn add @web3auth/modal
-yarn add @radix-ui/react-toast class-variance-authority lucide-react
-yarn add clsx tailwind-merge
-yarn add @web3auth/modal @web3auth/base
-yarn add ethers@5.7.2
+Login via carteira (Web3Auth), stake simbólico registrado no Firebase.
 
-3. Configure as variáveis de ambiente
-```bash
-cp .env.local
-```
+```ts
+userId = walletAddress;
+Recompensas, whitelist e histórico de stake protegidos por autenticação.
 
-4. Inicie o servidor de desenvolvimento
-```bash
-yarn dev
-```
+🔥 Como Participar
+Compre $MKS na Uniswap
 
-## Variáveis de Ambiente
+Faça stake em markcash.xyz/stake
 
-- `NEXT_PUBLIC_WEB3AUTH_CLIENT_ID`
-- `NEXT_PUBLIC_INFURA_RPC_URL`
-- `NEXT_PUBLIC_MKS_CONTRACT_ADDRESS`
-- `NEXT_PUBLIC_ETHERSCAN_API_KEY`
+Entre no grupo fechado e acompanhe o colapso do marketing tradicional
 
-## Deploy
-
-### Netlify
-
-1. Faça login no [Netlify](https://app.netlify.com)
-2. Clique em "New site from Git"
-3. Selecione o repositório do GitHub
-4. Configure as variáveis de ambiente no painel do Netlify
-5. Clique em "Deploy site"
-
-O site será automaticamente atualizado quando houver novos commits na branch main.
-
-## Licença
-
-MIT 
+🛑 Licença
+Este projeto é proprietário e exclusivo.
+© 2025 MARKCASH — Todos os direitos reservados
