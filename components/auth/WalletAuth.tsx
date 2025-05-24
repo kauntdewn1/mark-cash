@@ -20,7 +20,7 @@ export function WalletAuth() {
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: '0x1',
-            rpcTarget: 'https://rpc.ankr.com/eth',
+            rpcTarget: 'https://rpc.ankr.com/eth/28ef22650a74b0b5a294732f7e8fa069b8c0c8cc173cc1928822648ab2f515c4',
             displayName: 'Ethereum Mainnet',
             blockExplorer: 'https://etherscan.io',
             ticker: 'ETH',
