@@ -1,0 +1,117 @@
+# Settings for Backend (on Cloud Run).
+# See https://firebase.google.com/docs/app-hosting/configure#cloud-run
+runConfig:
+  minInstances: 0
+  region: us-central1 (Iowa)
+  # maxInstances: 100
+  # concurrency: 80
+  # cpu: 1
+  # memoryMiB: 512
+
+# Environment variables and secrets.
+env:
+  # Firebase Config
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: "AIzaSyDxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx"  # Substitua pelo seu API Key
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: "flwff-stablecoin-info.firebaseapp.com"
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: "flwff-stablecoin-info"
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: "flwff-stablecoin-info.appspot.com"
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: "320802440259"  # Substitua pelo seu Sender ID
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: "1:320802440259:web:9261c23743fde52443c0f6"
+    availability:
+      - BUILD
+      - RUNTIME
+
+  # Firebase Admin
+  - variable: FIREBASE_PROJECT_ID
+    value: "flwff-stablecoin-info"
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: FIREBASE_CLIENT_EMAIL
+    value: "firebase-adminsdk-fbsvc@flwff-stablecoin-info.iam.gserviceaccount.com"
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: FIREBASE_PRIVATE_KEY
+    value: "-----BEGIN PRIVATE KEY-----\nSUA_CHAVE_PRIVADA_AQUI\n-----END PRIVATE KEY-----\n"  # Substitua pela sua chave privada
+    availability:
+      - BUILD
+      - RUNTIME
+
+  # Web3Auth Config
+  - variable: NEXT_PUBLIC_WEB3AUTH_CLIENT_ID
+    value: "SEU_WEB3AUTH_CLIENT_ID"  # Substitua pelo seu Client ID
+    availability:
+      - BUILD
+      - RUNTIME
+
+  # Ankr RPC
+  - variable: NEXT_PUBLIC_ANKR_RPC_KEY
+    value: "SUA_CHAVE_ANKR"  # Substitua pela sua chave Ankr
+    availability:
+      - BUILD
+      - RUNTIME
+
+  # Etherscan
+  - variable: NEXT_PUBLIC_ETHERSCAN_API_KEY
+    value: "SUA_CHAVE_ETHERSCAN"  # Substitua pela sua chave Etherscan
+    availability:
+      - BUILD
+      - RUNTIME
+
+  # MKS Contract
+  - variable: NEXT_PUBLIC_MKS_CONTRACT_ADDRESS
+    value: "SEU_ENDERECO_CONTRATO"  # Substitua pelo endereço do contrato
+    availability:
+      - BUILD
+      - RUNTIME
+
+  # Web3 Storage
+  - variable: WEB3_STORAGE_TOKEN
+    value: "SEU_TOKEN_WEB3STORAGE"  # Substitua pelo seu token
+    availability:
+      - BUILD
+      - RUNTIME
+
+# Environment variables and secrets.
+# env:
+  # Configure environment variables.
+  # See https://firebase.google.com/docs/app-hosting/configure#user-defined-environment
+  # - variable: MESSAGE
+  #   value: Hello world!
+  #   availability:
+  #     - BUILD
+  #     - RUNTIME
+
+  # Grant access to secrets in Cloud Secret Manager.
+  # See https://firebase.google.com/docs/app-hosting/configure#secret-parameters
+  # - variable: MY_SECRET
+  #   secret: mySecretRef
