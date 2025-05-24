@@ -7,9 +7,4 @@
   NODE_VERSION = "20.18.0"
 
 [[plugins]]
-  package = "@netlify/plugin-nextjs"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200 
+  package = "@netlify/plugin-nextjs" 
