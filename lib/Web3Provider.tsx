@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { Web3Auth } from '@web3auth/modal';
+import { CHAIN_NAMESPACES } from '@web3auth/base';
 import { ethers } from 'ethers';
 
 interface Web3ContextType {
@@ -36,8 +37,9 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
       try {
         const web3authInstance = new Web3Auth({
           clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID!,
+          web3AuthNetwork: 'mainnet',
           chainConfig: {
-            chainNamespace: 'eip155',
+            chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: '0x1',
             rpcTarget: 'https://rpc.ankr.com/eth',
             displayName: 'Ethereum Mainnet',
@@ -45,8 +47,6 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
             ticker: 'ETH',
             tickerName: 'Ethereum',
           },
-          web3AuthNetwork: 'sapphire_devnet',
-          enableLogging: true,
         });
 
         await web3authInstance.init();
