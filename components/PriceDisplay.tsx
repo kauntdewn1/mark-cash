@@ -7,7 +7,6 @@ import { motion } from 'framer-motion';
 interface NFTData {
   tokenId: string;
   contractAddress: string;
-  price?: number;
 }
 
 interface PriceDisplayProps {
@@ -16,34 +15,39 @@ interface PriceDisplayProps {
   nftData?: NFTData;
 }
 
-async function getNFTPrice(contractAddress: string, tokenId: string): Promise<number | null> {
+async function getTokenSupply(contractAddress: string): Promise<string | null> {
   try {
-    const response = await fetch(`https://api.etherscan.io/api?module=account&action=tokennfttx&contractaddress=${contractAddress}&tokenid=${tokenId}&sort=desc&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`);
+    const response = await fetch(`https://api.etherscan.io/v2/api?chainid=1&module=stats&action=tokensupply&contractaddress=${contractAddress}&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`);
     
     if (!response.ok) {
-      console.error('Failed to fetch NFT data from Etherscan');
+      console.error('Failed to fetch token supply from Etherscan');
       return null;
     }
 
     const data = await response.json();
     
-    if (data.status === '1' && data.result && data.result.length > 0) {
-      const lastSale = data.result.find((tx: any) => tx.value);
-      if (lastSale) {
-        const priceInEth = parseFloat(lastSale.value) / 1e18;
-        return priceInEth;
-      }
+    if (data.status === '1' && data.result) {
+      // Converte o supply de wei para ETH
+      const supplyInEth = parseFloat(data.result) / 1e18;
+      return supplyInEth.toLocaleString('en-US', { maximumFractionDigits: 0 });
     }
     
     return null;
   } catch (error) {
-    console.error('Error fetching NFT price:', error);
+    console.error('Error fetching token supply:', error);
     return null;
   }
 }
 
 const PriceDisplay: FC<PriceDisplayProps> = ({ nftData }) => {
   const [showTerminal, setShowTerminal] = useState(true);
+  const [supply, setSupply] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (nftData?.contractAddress) {
+      getTokenSupply(nftData.contractAddress).then(setSupply);
+    }
+  }, [nftData?.contractAddress]);
 
   return (
     <motion.div
@@ -64,6 +68,11 @@ const PriceDisplay: FC<PriceDisplayProps> = ({ nftData }) => {
         </div>
         <div className="flex-1 flex flex-col justify-center">
           <p className="text-xl mb-7 font-bold text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.5)]">TOKEN: $MKS/ETH</p>
+          {supply && (
+            <p className="text-lime-400 font-mono text-sm mb-4">
+              Supply Total: {supply} MKS
+            </p>
+          )}
           <p className="mt-2 text-lime-400 font-mono text-sm">
             __?names=Web3Auth!=!<span className="animate-blink">_</span>
           </p>
