@@ -54,11 +54,15 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
 
         if (web3authInstance.provider) {
           const ethersProvider = new ethers.providers.Web3Provider(web3authInstance.provider);
-          const signer = ethersProvider.getSigner();
-          const userAddress = await signer.getAddress();
-
           setProvider(ethersProvider);
-          setAddress(userAddress);
+
+          try {
+            const signer = ethersProvider.getSigner();
+            const userAddress = await signer.getAddress();
+            setAddress(userAddress);
+          } catch (error) {
+            console.log('Usuário não conectado ainda');
+          }
         }
       } catch (error) {
         console.error('Erro ao inicializar Web3Auth:', error);
@@ -78,11 +82,16 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
       if (!web3authProvider) return;
 
       const ethersProvider = new ethers.providers.Web3Provider(web3authProvider);
-      const signer = ethersProvider.getSigner();
-      const userAddress = await signer.getAddress();
-
       setProvider(ethersProvider);
-      setAddress(userAddress);
+
+      try {
+        const signer = ethersProvider.getSigner();
+        const userAddress = await signer.getAddress();
+        setAddress(userAddress);
+      } catch (error) {
+        console.error('Erro ao obter endereço:', error);
+        setError('Erro ao obter endereço da carteira');
+      }
     } catch (error) {
       console.error('Erro ao conectar carteira:', error);
       setError('Erro ao conectar carteira');
