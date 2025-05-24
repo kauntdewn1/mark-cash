@@ -36,6 +36,15 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
       try {
         const web3authInstance = new Web3Auth({
           clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID!,
+          chainConfig: {
+            chainNamespace: 'eip155',
+            chainId: '0x1',
+            rpcTarget: 'https://rpc.ankr.com/eth',
+            displayName: 'Ethereum Mainnet',
+            blockExplorer: 'https://etherscan.io',
+            ticker: 'ETH',
+            tickerName: 'Ethereum',
+          },
           web3AuthNetwork: 'sapphire_devnet',
           enableLogging: true,
         });
