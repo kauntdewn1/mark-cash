@@ -41,7 +41,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: '0x1',
-            rpcTarget: 'https://rpc.ankr.com/eth/28ef22650a74b0b5a294732f7e8fa069b8c0c8cc173cc1928822648ab2f515c4',
+            rpcTarget: `https://rpc.ankr.com/eth/${process.env.NEXT_PUBLIC_ANKR_RPC_KEY}`,
             displayName: 'Ethereum Mainnet',
             blockExplorer: 'https://etherscan.io',
             ticker: 'ETH',
