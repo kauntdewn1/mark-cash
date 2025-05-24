@@ -13,6 +13,7 @@ const nextConfig = {
   webpack: (config) => {
     config.externals = [...(config.externals || []), { canvas: "canvas" }];
     config.cache = false; // Disable webpack caching
+    config.resolve.alias['@react-native-async-storage/async-storage'] = false;
     return config;
   },
   // Configuração para exportação estática
