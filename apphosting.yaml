@@ -100,6 +100,20 @@ env:
     availability:
       - BUILD
       - RUNTIME
+      
+ # Github
+  - variable: NEXT_PUBLIC_GITHUB_CLIENT_ID
+    value: "Ov23liVChpJTza9CC6Sl"  # Substitua pelo seu token
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_GITHUB_CLIENT_SECRET
+    value: "0d868180128d3b0821b0498721bf72fecf9aed0b"  # Substitua pelo seu token
+    availability:
+      - BUILD
+      - RUNTIME
+
 
 # Environment variables and secrets.
 # env:
